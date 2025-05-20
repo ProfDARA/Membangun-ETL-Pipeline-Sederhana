@@ -1,15 +1,44 @@
-import pandas as pd
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+import requests
+from bs4 import BeautifulSoup
 
-def extract_from_csv(file_path: str) -> pd.DataFrame:
-    return pd.read_csv(file_path)
+def scrape_main(url):
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Naikkan HTTPError jika status bukan 200
+    except requests.exceptions.RequestException as e:
+        raise Exception(f"Gagal mengakses URL: {url}. Detail: {e}")
 
-def extract_from_google_sheets(json_credential_path: str, sheet_name: str, worksheet_index: int = 0) -> pd.DataFrame:
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(json_credential_path, scope)
-    client = gspread.authorize(creds)
-    sheet = client.open(sheet_name)
-    worksheet = sheet.get_worksheet(worksheet_index)
-    data = worksheet.get_all_records()
-    return pd.DataFrame(data)
+    try:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        products = []
+
+        # Menentukan elemen-elemen yang ingin diambil menggunakan dictionary
+        element_selectors = {
+            'title': {'tag': 'h3', 'class': 'product-title', 'default': 'Unknown Title'},
+            'price': {'tag': 'div', 'class': 'price-container', 'default': 'Price Unavailable'},
+            'rating': {'tag': 'p', 'string_contains': 'Rating', 'default': 'No Rating'},
+            'colors': {'tag': 'p', 'string_contains': 'Colors', 'default': 'No Color Info'},
+            'size': {'tag': 'p', 'string_contains': 'Size', 'default': 'No Size Info'},
+            'gender': {'tag': 'p', 'string_contains': 'Gender', 'default': 'No Gender Info'}
+        }
+
+        for card in soup.find_all('div', class_='collection-card'):
+            product_data = {}
+
+            for key, selector in element_selectors.items():
+                if 'class' in selector:
+                    element = card.find(selector['tag'], class_=selector['class'])
+                elif 'string_contains' in selector:
+                    element = card.find(selector['tag'], string=lambda text: text and selector['string_contains'] in text)
+                
+                product_data[key] = element.text.strip() if element else selector['default']
+
+            products.append(product_data)
+
+        if not products:
+            raise Exception("Tidak ada produk yang ditemukan pada halaman ini.")
+
+        return products
+
+    except Exception as e:
+        raise Exception(f"Gagal melakukan parsing HTML. Detail: {e}")
