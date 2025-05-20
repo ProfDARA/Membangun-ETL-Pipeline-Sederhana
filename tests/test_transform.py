@@ -1,5 +1,21 @@
 import pandas as pd
-from utils.transform import clean_and_merge
+from utils.transform import DataTransformer, clean_and_merge
+
+def test_transform_valid_data():
+    sample_data = [{
+        'title': 'Shirt',
+        'price': 'Rp 150.000',
+        'rating': 'Rating: 4.5',
+        'colors': 'Colors: Red',
+        'size': 'Size: M',
+        'gender': 'Gender: Male'
+    }]
+    transformer = DataTransformer(sample_data)
+    df = transformer.transform()
+    assert not df.empty
+    assert 'price' in df.columns and df['price'].dtype == 'float64'
+    assert 'rating' in df.columns and df['rating'].dtype == 'float64'
+
 
 def test_clean_and_merge():
     df1 = pd.DataFrame({"id": [1], "price": ["1,000"]})
@@ -7,3 +23,4 @@ def test_clean_and_merge():
     result = clean_and_merge(df1, df2)
     assert result.shape[0] == 1
     assert result["price"].iloc[0] == 1000.0
+

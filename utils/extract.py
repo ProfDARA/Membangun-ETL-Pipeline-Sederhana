@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 def scrape_main(url):
     try:
         response = requests.get(url, timeout=10)
-        response.raise_for_status()  # Naikkan HTTPError jika status bukan 200
+        response.raise_for_status()
     except requests.exceptions.RequestException as e:
         raise Exception(f"Gagal mengakses URL: {url}. Detail: {e}")
 
@@ -12,7 +12,6 @@ def scrape_main(url):
         soup = BeautifulSoup(response.text, 'html.parser')
         products = []
 
-        # Menentukan elemen-elemen yang ingin diambil menggunakan dictionary
         element_selectors = {
             'title': {'tag': 'h3', 'class': 'product-title', 'default': 'Unknown Title'},
             'price': {'tag': 'div', 'class': 'price-container', 'default': 'Price Unavailable'},
@@ -26,12 +25,12 @@ def scrape_main(url):
             product_data = {}
 
             for key, selector in element_selectors.items():
+                element = None
                 if 'class' in selector:
                     element = card.find(selector['tag'], class_=selector['class'])
                 elif 'string_contains' in selector:
                     element = card.find(selector['tag'], string=lambda text: text and selector['string_contains'] in text)
-                
-                product_data[key] = element.text.strip() if element else selector['default']
+                product_data[key] = element.get_text(strip=True) if element else selector['default']
 
             products.append(product_data)
 
