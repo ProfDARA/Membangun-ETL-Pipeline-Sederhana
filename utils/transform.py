@@ -20,27 +20,32 @@ class DataTransformer:
 
         # Filter invalid title
         df = df[df['title'].str.lower() != 'unknown product']
+        df['title'] = df['title'].astype('object')
 
         # Clean price dan konversi ke float
         df['price'] = df['price'].replace(r'[^\d.]', '', regex=True)
         df['price'] = pd.to_numeric(df['price'], errors='coerce') * 16000
+        df['price'] = df['price'].astype('float64')
         df.dropna(subset=['price'], inplace=True)
 
         # Clean rating
         df['rating'] = df['rating'].replace(r'[^\d.]', '', regex=True)
-        df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
-
-        # Drop invalid rating/colors
+        df['rating'] = pd.to_numeric(df['rating'], errors='coerce').astype('float64')
         df.dropna(subset=['rating', 'colors'], inplace=True)
+
+        # Normalisasi color
+        df['colors'] = df['colors'].str.extract(r'(\d+)').astype('Int64')
 
         # Normalisasi size
         df['size'] = df['size'].str.replace('Size: ', '', regex=False).str.upper()
         df = df[df['size'].isin(VALID_SIZES)]
+        df['size'] = df['size'].astype('object')
 
         # Normalisasi gender
         df['gender'] = df['gender'].str.replace('Gender: ', '', regex=False).str.lower()
         df['gender'] = df['gender'].where(df['gender'].isin(VALID_GENDERS))
         df.dropna(subset=['gender'], inplace=True)
+        df['gender'] = df['gender'].astype('object')
 
         # tambahan untuk timestamp
         df['timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
