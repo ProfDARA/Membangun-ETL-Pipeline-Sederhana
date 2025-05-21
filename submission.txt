@@ -6,14 +6,10 @@ Main file akan mengorkestrasi keseluruhan proses ETL.
 
 pip install pipreqs
 
-python3 main.py
+python main.py
 
 # Menjalankan unit test pada folder tests
 
-python3 -m pytest tests
-
-# Menjalankan test coverage pada folder tests
-
-coverage run -m pytest tests
+python -m pytest tests
 
 # Url Google Sheets:
