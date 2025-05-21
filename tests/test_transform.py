@@ -1,6 +1,7 @@
 import pandas as pd
 from utils.transform import DataTransformer, clean_and_merge
 
+# bagian ini digunakan untuk menguji fungsi transformasi data
 def test_transform_valid_data():
     sample_data = [{
         'title': 'Shirt',
@@ -10,6 +11,8 @@ def test_transform_valid_data():
         'size': 'Size: M',
         'gender': 'Gender: Male'
     }]
+
+    # Inisialisasi DataTransformer dengan data contoh
     transformer = DataTransformer(sample_data)
     df = transformer.transform()
     assert not df.empty
@@ -17,6 +20,7 @@ def test_transform_valid_data():
     assert df['price'].dtype == 'float64'
     assert df['rating'].dtype == 'float64'
 
+# fungsi ini digunakan untuk menguji fungsi transformasi data dengan data yang tidak valid
 def test_clean_and_merge():
     df1 = pd.DataFrame({"id": [1], "price": ["1,000"]})
     df2 = pd.DataFrame({"id": [1], "price": ["1,000"]})

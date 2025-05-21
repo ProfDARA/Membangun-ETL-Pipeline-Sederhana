@@ -1,9 +1,12 @@
 import pytest
 from utils.extract import scrape_main
 
+# fungsi ini digunakan untuk menguji fungsi scrape_main
 @pytest.mark.parametrize("url", [
     "https://fashion-studio.dicoding.dev/",
 ])
+
+# bagian ini digunakan untuk menguji fungsi scrape_main dengan URL yang valid
 def test_scrape_main_success(url):
     products = scrape_main(url)
     assert isinstance(products, list)

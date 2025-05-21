@@ -2,6 +2,9 @@ ETL pipeline ini terdiri dari 3 tahapan modul: extract, transform, dan load.
 Setiap tahapan disimpan dalam file Python terpisah untuk memudahkan modularitas dan unit testing.
 Main file akan mengorkestrasi keseluruhan proses ETL.
 
+
+
+
 # Menjalankan skrip
 
 pip install pipreqs
@@ -13,3 +16,5 @@ python main.py
 python -m pytest tests
 
 # Url Google Sheets:
+
+https://docs.google.com/spreadsheets/d/1qGvCVX2L7hl-dBdLgM0EEXYlimIfDcbowS7LFFUA0Fw/edit?usp=sharing

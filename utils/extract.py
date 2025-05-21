@@ -1,7 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
+# fungsi ini digunakan untuk mengambil data dari website fashion-studio.dicoding.dev
 def scrape_main(url):
+
+    # bagian ini digunakan untuk mengakses URL dan menangani kesalahan
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -12,6 +15,7 @@ def scrape_main(url):
         soup = BeautifulSoup(response.text, 'html.parser')
         products = []
 
+        # bagian ini digunakan untuk mencari elemen-elemen yang ada di dalam halaman
         element_selectors = {
             'title': {'tag': 'h3', 'class': 'product-title', 'default': 'Unknown Title'},
             'price': {'tag': 'div', 'class': 'price-container', 'default': 'Price Unavailable'},
@@ -21,6 +25,7 @@ def scrape_main(url):
             'gender': {'tag': 'p', 'string_contains': 'Gender', 'default': 'No Gender Info'}
         }
 
+        # bagian ini digunakan untuk mencari elemen-elemen yang ada di dalam halaman
         for card in soup.find_all('div', class_='collection-card'):
             product_data = {}
 
@@ -39,5 +44,6 @@ def scrape_main(url):
 
         return products
 
+    # bagian ini digunakan untuk menangani kesalahan saat parsing HTML
     except Exception as e:
         raise Exception(f"Gagal melakukan parsing HTML. Detail: {e}")
