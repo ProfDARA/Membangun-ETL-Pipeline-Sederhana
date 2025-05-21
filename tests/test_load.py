@@ -29,3 +29,4 @@ def test_save_to_csv(tmp_path):
     saver.save_to_csv(filename=str(file_path))
     saved_df = pd.read_csv(file_path)
     assert not saved_df.empty
+

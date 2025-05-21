@@ -19,3 +19,6 @@ def test_scrape_main_success(url):
         assert 'colors' in p
         assert 'size' in p
         assert 'gender' in p
+
+
+
