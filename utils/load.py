@@ -46,8 +46,8 @@ class DataSaver:
             username = 'postgres'
             password = '12345678'
             host = 'localhost'
-            port = '5432'
-            database = 'etl_db'
+            port = '5433'
+            database = 'etl'
 
             engine = create_engine(f'postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}')
             self.data.to_sql(table_name, engine, if_exists='replace', index=False)
