@@ -11,6 +11,7 @@ def test_scrape_main_success(url):
     products = scrape_main(url)
     assert isinstance(products, list)
     assert len(products) > 0
+    # ini digunakan untuk memeriksa apakah setiap produk memiliki atribut yang diharapkan
     for p in products:
         assert 'title' in p
         assert 'price' in p
