@@ -9,7 +9,7 @@ def test_transform_valid_data():
         'rating': 'Rating: 4.5',
         'colors': 'Colors: Red',
         'size': 'Size: M',
-        'gender': 'Gender: Male'
+        'gender': 'Gender: Men'
     }]
 
     # Inisialisasi DataTransformer dengan data contoh

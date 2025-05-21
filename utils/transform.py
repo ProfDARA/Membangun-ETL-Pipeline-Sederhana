@@ -18,14 +18,24 @@ class DataTransformer:
         df.dropna(subset=['price'], inplace=True)
 
         if not df['price'].empty:
-            df['price'] = df['price'] * 16410  # Kurs IDR/USD sekarang
+            df['price'] = df['price'] * 16000  # Kurs IDR/USD sekarang
 
         # mengubah kolom rating menjadi float
         df['rating'] = df['rating'].replace(r'[^0-9.]', '', regex=True)
         df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
 
+        # mengubah kolom colors menjadi string
         df.dropna(subset=['rating', 'colors'], inplace=True)
         df.drop_duplicates(inplace=True)
+
+        # filter size agar hanya 'S', 'M', 'L', 'XL', 'XXL'
+        df['size'] = df['size'].str.replace('Size: ', '', regex=False).astype(str)
+
+
+        # Filter gender agar hanya 'men' dan 'woman'
+        df['gender'] = df['gender'].str.replace('Gender: ', '', regex=False).str.lower()
+        df['gender'] = df['gender'].map(lambda x: 'men' if x == 'men' else 'woman' if x == 'woman' else 'unisex' if x == 'unisex' else np.nan)
+        df.dropna(subset=['gender'], inplace=True)
 
         # mengubah kolom timestamp menjadi datetime
         df['timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
