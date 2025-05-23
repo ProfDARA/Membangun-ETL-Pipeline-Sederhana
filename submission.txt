@@ -27,3 +27,7 @@ python main.py
 ## Menjalankan Unit Test
 
 python -m pytest tests
+
+
+Link Google Sheet :
+https://docs.google.com/spreadsheets/d/1qGvCVX2L7hl-dBdLgM0EEXYlimIfDcbowS7LFFUA0Fw/edit?usp=sharing
