@@ -40,9 +40,11 @@ class Scraper:
 # fungsi ini digunakan untuk memproses data yang sudah diambil dari website
 class DataProcessor:
     def __init__(self, products):
+        self.products = products
         self.transformer = DataTransformer(products)
 
     def process(self):
+        print(f"{Fore.CYAN}{Style.BRIGHT}Jumlah data yang diambil: {len(self.products)}{Style.RESET_ALL}")
         return self.transformer.transform()
 
 # fungsi ini digunakan untuk menyimpan data yang sudah diproses ke dalam file csv, google sheets, dan postgresql
@@ -52,7 +54,7 @@ def main():
     scraper = Scraper(base_url)
     all_products = scraper.scrape_all()
 
-    # menampilkan jumlah produk yang berhasil diambil
+    # jumlah produk yang berhasil diambil
     if all_products:
         processor = DataProcessor(all_products)
         transformed_data = processor.process()

@@ -1,20 +1,29 @@
-ETL pipeline ini terdiri dari 3 tahapan modul: extract, transform, dan load.
-Setiap tahapan disimpan dalam file Python terpisah untuk memudahkan modularitas dan unit testing.
-Main file akan mengorkestrasi keseluruhan proses ETL.
+# ETL Pipeline
+
+## Deskripsi  
+Pipeline ETL ini terdiri dari tiga tahapan utama: **Extract**, **Transform**, dan **Load**.  
+Setiap tahapan dikelola dalam file Python terpisah untuk memudahkan modularitas dan unit testing.  
+File utama (`main.py`) akan mengorkestrasi keseluruhan proses ETL.
 
 
+## Menjalankan ETL  
+Pastikan Anda telah menginstal **Python 3.8+** dan memiliki akun Google yang memiliki akses ke **Google Sheets API**.  
 
+### Instal dependency  
+Instal `pipreqs` untuk mengelola dependency: 
 
-# Menjalankan skrip
+atau 
 
 pip install pipreqs
 
-python main.py
+atau
 
-# Menjalankan unit test pada folder tests
+pip install -r requirements.txt 
+
+## Menjalankan ETL
+
+python main.py  
+
+## Menjalankan Unit Test
 
 python -m pytest tests
-
-# Url Google Sheets:
-
-https://docs.google.com/spreadsheets/d/1qGvCVX2L7hl-dBdLgM0EEXYlimIfDcbowS7LFFUA0Fw/edit?usp=sharing

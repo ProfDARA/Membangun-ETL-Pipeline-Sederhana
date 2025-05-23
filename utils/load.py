@@ -14,7 +14,9 @@ class DataSaver:
             print("Dataframe kosong, tidak ada data yang disimpan.")
             return
         self.data.to_csv(filename, index=False)
-        print(f"Data berhasil disimpan ke {filename}.")
+        # jumlah baris data (tidak termasuk header/title)
+        row_count = len(self.data)
+        print(f"\033[94mData berhasil disimpan ke {filename}. Jumlah baris data: {row_count}\033[0m")
 
     # fungsi ini digunakan untuk menyimpan data ke dalam google sheets
     def save_to_google_sheets(self, spreadsheet_id, range_name):

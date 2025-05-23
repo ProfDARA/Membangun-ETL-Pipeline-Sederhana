@@ -1,5 +1,3 @@
-# src/transform.py
-
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -8,7 +6,7 @@ from datetime import datetime
 # Variabel ini digunakan untuk menyimpan ukuran dan jenis kelamin yang valid
 # yang akan digunakan dalam proses transformasi data
 VALID_SIZES = {'S', 'M', 'L', 'XL', 'XXL'}
-VALID_GENDERS = {'men', 'woman', 'unisex'}
+VALID_GENDERS = {'Men', 'Man', 'Woman', 'Women', 'Unisex'}
 
 # Fungsi ini digunakan untuk membersihkan dan memproses data produk
 class DataTransformer:
@@ -42,10 +40,9 @@ class DataTransformer:
         df['size'] = df['size'].astype('object')
 
         # Normalisasi gender
-        df['gender'] = df['gender'].str.replace('Gender: ', '', regex=False).str.lower()
+        df['gender'] = df['gender'].str.replace('Gender: ', '', regex=False)
         df['gender'] = df['gender'].where(df['gender'].isin(VALID_GENDERS))
         df.dropna(subset=['gender'], inplace=True)
-        df['gender'] = df['gender'].astype('object')
 
         # tambahan untuk timestamp
         df['timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

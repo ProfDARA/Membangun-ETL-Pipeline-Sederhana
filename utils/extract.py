@@ -47,3 +47,5 @@ def scrape_main(url):
     # bagian ini digunakan untuk menangani kesalahan saat parsing HTML
     except Exception as e:
         raise Exception(f"Gagal melakukan parsing HTML. Detail: {e}")
+
+
