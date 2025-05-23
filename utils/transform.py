@@ -27,7 +27,7 @@ class DataTransformer:
         df.dropna(subset=['price'], inplace=True)
 
         # Clean rating
-        df['rating'] = df['rating'].replace(r'[^\d.]', '', regex=True)
+        df['rating'] = df['rating'].str.extract(r'(\d+\.\d+)')
         df['rating'] = pd.to_numeric(df['rating'], errors='coerce').astype('float64')
         df.dropna(subset=['rating', 'colors'], inplace=True)
 
